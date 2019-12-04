@@ -428,7 +428,7 @@ class MMD_GAN(object):
         return values
         
     
-    def get_samples(self, n=None, save=True, layers=[]):
+    def get_samples(self, n=None, save=True, layers=[], start_idx=0):
         if not (self.initialized_for_sampling or self.config.is_train):
             print('[*] Loading from ' + self.checkpoint_dir + '...')
             self.sess.run(tf.local_variables_initializer())
@@ -463,9 +463,9 @@ class MMD_GAN(object):
                 for idx in range(val.shape[0]):
                     print('Generating png to %s: %d / %d...' % (self.config.output_dir_of_test_samples, idx, val.shape[0]), end='\r')
                     if self.config.model == 'mmd':
-                        p = os.path.join(self.config.output_dir_of_test_samples, 'MMD_{:08d}.png'.format(idx))
+                        p = os.path.join(self.config.output_dir_of_test_samples, 'MMD_{:08d}.png'.format(start_idx+idx))
                     elif self.config.model == 'wgan_gp':
-                        p = os.path.join(self.config.output_dir_of_test_samples, 'WGAN-GP_{:08d}.png'.format(idx))
+                        p = os.path.join(self.config.output_dir_of_test_samples, 'WGAN-GP_{:08d}.png'.format(start_idx+idx))
                     elif self.config.model == 'cramer':
-                        p = os.path.join(self.config.output_dir_of_test_samples, 'CRAMER_{:08d}.png'.format(idx))
+                        p = os.path.join(self.config.output_dir_of_test_samples, 'CRAMER_{:08d}.png'.format(start_idx+idx))
                     misc.save_images(val[idx:idx+1, :, :, :], [1, 1], p)         

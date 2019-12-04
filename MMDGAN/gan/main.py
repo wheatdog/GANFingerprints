@@ -45,6 +45,7 @@ flags.DEFINE_boolean('compute_scores', False, "Compute scores [True]")
 flags.DEFINE_float("gpu_mem", .9, "GPU memory fraction limit [0.9]")
 flags.DEFINE_float("L2_discriminator_penalty", 0.0, "L2 penalty on discriminator features [0.0]")
 flags.DEFINE_integer("no_of_samples", 100000, "number of samples to produce")
+flags.DEFINE_integer("start_idx", 0, "start_idx of output image")
 flags.DEFINE_boolean("print_pca", False, "")
 flags.DEFINE_integer("save_layer_outputs", 0, "Wheather to save_layer_outputs. If == 2, saves outputs at exponential steps: 1, 2, 4, ..., 512 and every 1000. [0, 1, 2]")
 flags.DEFINE_string("output_dir_of_test_samples", 'samples_mmd', "Output directory for testing samples")
@@ -120,7 +121,7 @@ def main(_):
             gan.load_checkpoint()
             visualize(sess, gan, FLAGS, 2)
         else:
-            gan.get_samples(FLAGS.no_of_samples, layers=[-1])
+            gan.get_samples(FLAGS.no_of_samples, layers=[-1], start_idx=FLAGS.start_idx)
 
 
         if FLAGS.log:
